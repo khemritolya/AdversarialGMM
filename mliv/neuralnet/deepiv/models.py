@@ -12,6 +12,7 @@ from keras.models import Model
 from keras import backend as K
 from keras.layers import Lambda, InputLayer
 from keras.engine import topology
+
 try:
     import h5py
 except ImportError:
