@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import numpy
 from keras import backend as K
-from keras.engine.topology import InputLayer
+from keras.layers import InputLayer
 
 if K.backend() == "theano":
     from theano.sandbox.rng_mrg import MRG_RandomStreams as RandomStreams
