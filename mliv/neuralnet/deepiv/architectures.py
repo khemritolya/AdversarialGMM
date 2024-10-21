@@ -7,7 +7,7 @@ from keras.layers import (Convolution2D, Dense, Dropout, Flatten,
 from keras.models import Sequential
 from keras.regularizers import l2
 from keras.constraints import MaxNorm
-from keras.utils import np_utils
+# from keras.utils import np_utils
 
 import numpy as np
 
