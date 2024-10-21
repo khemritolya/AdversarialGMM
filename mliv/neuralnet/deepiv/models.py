@@ -11,7 +11,7 @@ from .custom_gradients import replace_gradients_mse
 from keras.models import Model
 from keras import backend as K
 from keras.layers import Lambda, InputLayer
-from keras.engine import topology
+# from keras.engine import topology
 
 try:
     import h5py
