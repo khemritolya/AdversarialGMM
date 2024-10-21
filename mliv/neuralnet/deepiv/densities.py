@@ -4,9 +4,9 @@ import numpy
 import keras
 from keras import backend as K
 
-from keras.layers.merge import Concatenate
+from keras.layers import Concatenate
 from keras.layers import Lambda
-from keras.layers.core import Reshape
+from keras.layers import Reshape
 
 def split(start, stop):
     return Lambda(lambda x: x[:, start:stop], output_shape=(None, stop-start))
