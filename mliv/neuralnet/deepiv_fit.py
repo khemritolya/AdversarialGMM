@@ -15,7 +15,7 @@ from .deepiv import architectures
 from .deepiv import densities
 from keras.layers import Input, Dense
 from keras.models import Model
-from keras.layers.merge import Concatenate
+from keras.layers import Concatenate
 
 # The deep_iv benchmark
 
