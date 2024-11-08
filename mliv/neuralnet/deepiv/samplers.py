@@ -3,6 +3,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import numpy
 from keras import backend as K
 from keras.layers import InputLayer
+import keras.ops as M
+import keras.random as R
 
 if K.backend() == "theano":
     from theano.sandbox.rng_mrg import MRG_RandomStreams as RandomStreams
@@ -17,10 +19,10 @@ def random_laplace(shape, mu=0., b=1.):
     See: https://en.wikipedia.org/wiki/Laplace_distribution#Generating_random_variables_according_to_the_Laplace_distribution
     '''
     U = K.random_uniform(shape, -0.5, 0.5)
-    return mu - b * K.sign(U) * K.log(1 - 2 * K.abs(U))
+    return mu - b * M.sign(U) * M.log(1 - 2 * M.abs(U))
 
 def random_normal(shape, mean=0.0, std=1.0):
-    return K.random_normal(shape, mean, std)
+    return R.normal(shape, mean, std)
 
 def random_multinomial(logits, seed=None):
     '''
@@ -42,8 +44,8 @@ def random_gmm(pi, mu, sig):
     the matrices n times if you want to get n samples), but makes it easy to implment
     code where the parameters vary as they are conditioned on different datapoints.
     '''
-    normals = random_normal(K.shape(mu), mu, sig)
+    normals = random_normal(M.shape(mu), mu, sig)
     k = random_multinomial(pi)
-    return K.sum(normals * k, axis=1, keepdims=True)
+    return M.sum(normals * k, axis=1, keepdims=True)
 
 

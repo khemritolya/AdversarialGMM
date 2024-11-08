@@ -10,6 +10,7 @@ from .custom_gradients import replace_gradients_mse
 
 from keras.models import Model
 from keras import backend as K
+import keras.ops as M
 from keras.layers import Lambda, InputLayer
 # from keras.engine import topology
 
@@ -40,7 +41,7 @@ class Treatment(Model):
         inputs = self.inputs
 
         if loss in ["MSE", "mse", "mean_squared_error"]:
-            output += samplers.random_normal(K.shape(output),
+            output += samplers.random_normal(M.shape(output),
                                              mean=0.0, std=1.0)
             draw_sample = K.function(inputs + [K.learning_phase()], [output])
 
@@ -53,7 +54,7 @@ class Treatment(Model):
             return sample_gaussian
 
         elif loss == "binary_crossentropy":
-            output = K.random_binomial(K.shape(output), p=output)
+            output = K.random_binomial(M.shape(output), p=output)
             draw_sample = K.function(inputs + [K.learning_phase()], [output])
 
             def sample_binomial(inputs, use_dropout=False):
@@ -65,7 +66,7 @@ class Treatment(Model):
             return sample_binomial
 
         elif loss in ["mean_absolute_error", "mae", "MAE"]:
-            output += samplers.random_laplace(K.shape(output), mu=0.0, b=1.0)
+            output += samplers.random_laplace(M.shape(output), mu=0.0, b=1.0)
             draw_sample = K.function(inputs + [K.learning_phase()], [output])
 
             def sample_laplace(inputs, use_dropout=False):
@@ -79,7 +80,7 @@ class Treatment(Model):
         elif loss == "mixture_of_gaussians":
             pi, mu, log_sig = densities.split_mixture_of_gaussians(
                 output, self.n_components)
-            samples = samplers.random_gmm(pi, mu, K.exp(log_sig))
+            samples = samplers.random_gmm(pi, mu, M.exp(log_sig))
             draw_sample = K.function(inputs + [K.learning_phase()], [samples])
             return lambda inputs, use_dropout: draw_sample(inputs + [int(use_dropout)])[0]
 
